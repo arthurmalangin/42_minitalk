@@ -32,7 +32,6 @@ int	verify_process_id(int pid)
 void	diplay_character(char c, pid_t pid)
 {
 	int			bit;
-	static int	counter = 0;
 
 	bit = 7;
 	while (bit >= 0)
@@ -47,7 +46,6 @@ void	diplay_character(char c, pid_t pid)
 			usleep(100);
 		bit--;
 	}
-	counter++;
 }
 
 void	diplay_string(char *str, pid_t pid)
