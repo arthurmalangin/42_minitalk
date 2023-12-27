@@ -79,7 +79,7 @@ bonus: $(OBJS_B)
 all: $(NAME)
 
 clean:
-	$(RM) $(OBJS) $(OBJS_B)
+	$(RM) $(OBJS) $(OBJS_B) $(NAME)
 
 fclean: clean
 	$(RM) $(NAME)
