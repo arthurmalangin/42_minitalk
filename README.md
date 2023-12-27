@@ -18,6 +18,7 @@ $ make
 First execute the server.
 ```
 $ ./server
+Server PID: 31605
 ```
 
 After execute the client and send message.
