@@ -30,4 +30,4 @@ $ ./client <PID> <Message>
 ## Ressources
 
 * Some documentations for help: 
-  *  For understand bitwise operator
+  *  [Bitwise Operator](https://github.com/arthurmalangin/bitwise_operator_visualizer)
