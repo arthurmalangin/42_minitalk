@@ -6,13 +6,13 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 14:31:44 by amalangi          #+#    #+#             */
-/*   Updated: 2023/12/27 15:58:32 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:40:22 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 
-int	check_pid(int pid)
+int	check_pid_init(int pid, int init)
 {
 	if (!pid)
 	{
@@ -24,35 +24,37 @@ int	check_pid(int pid)
 		ft_printf("ERROR with pid: %d, can't send signal\n", pid);
 		exit(1);
 	}
-	return (pid);
+	if (!init)
+		init = ft_printf("\nClient [%d]: ", pid);
+	return (init);
 }
 
 void	handler(int sig, siginfo_t *data, void *ptr)
 {
 	static char	c = 0;
-	static int	bit = -1;
+	static int	bit = 7;
 	static int	init = 0;
 
 	(void)ptr;
-	check_pid(data->si_pid);
-	if (!init)
-	{
-		init = ft_printf("\nClient [%d]: ", data->si_pid);
-	}
+	init = check_pid_init(data->si_pid, init);
 	if (sig == SIGUSR1)
-		c = c | (1 << bit);
+		c += 1 << bit;
 	else if (sig == SIGUSR2)
-		c = c & ~(1 << bit);
-	if (!bit && c)
+		c += 0 << bit;
+	bit--;
+	if (bit == -1 && c)
+	{
 		write(1, &c, 1);
+		bit = 7;
+		c = 0;
+	}
 	else if (!bit && !c)
 	{
 		init = 0;
+		bit = 7;
+		c = 0;
 		kill(data->si_pid, SIGUSR2);
 	}
-	bit--;
-	if (bit < 0)
-		bit = 7;
 	kill(data->si_pid, SIGUSR1);
 }
 
@@ -60,6 +62,7 @@ int	main(void)
 {
 	struct sigaction	registry;
 
+	sigemptyset(&registry.sa_mask);
 	registry.sa_sigaction = handler;
 	registry.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &registry, 0);
