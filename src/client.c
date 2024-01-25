@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 14:25:49 by amalangi          #+#    #+#             */
-/*   Updated: 2023/12/27 15:25:50 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/01/24 20:53:30 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	diplay_character(char c, pid_t pid)
 		else
 			kill(pid, SIGUSR2);
 		while (g_bitcontrol != 1)
-			usleep(100);
+			usleep(600);
 		bit--;
 	}
 }
